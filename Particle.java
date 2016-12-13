@@ -1,498 +1,488 @@
+/**
+ * Purpose: Class to represent a Particle, including various properties such as mass and velocity.
+ *
+ * @author James Smith
+ * @version  1.0
+ */
+
 public class Particle {
-	private Vector position;
-	private Vector velocity;
-	private Vector acceleration;
-	private GravField field;
+	private static final double G = 6.67E-11;
+	private PhysicsVector position;
+	private PhysicsVector velocity;
+	private PhysicsVector acceleration;
 	private double mass;
-	private Vector newPosition;
-	private Vector newVelocity;
-	private Vector newAcceleration;
-	// private Vector force;
-	private static int noParticles = 0;
 	private String name;
+	private GravField field;
+	private PhysicsVector newPosition;
+	private PhysicsVector newVelocity;
+	private double momentum;
 	private double energy;
 
+	/**
+	 * Purpose: Default Constructor. Sets position, velocity, acceleration, mass, name to 0.
+	 */
 	public Particle() {
-		position = new Vector();
-		velocity = new Vector();
-		acceleration = new Vector();
-		mass = 0.0;
-		field = new GravField(position, mass);
-		newPosition = new Vector();
-		newVelocity = new Vector();
-		newAcceleration = new Vector();
-		// force = new Vector();
-		noParticles +=1;
+		position = new PhysicsVector();
+		velocity = new PhysicsVector();
+		acceleration = new PhysicsVector();
+		mass = 0;
 		name = "";
-		energy = 0;
-	}
-
-	public Particle(String n) {
-		position = new Vector();
-		velocity = new Vector();
-		acceleration = new Vector();
-		mass = 0.0;
 		field = new GravField(position, mass);
-		newPosition = new Vector();
-		newVelocity = new Vector();
-		newAcceleration = new Vector();
-		// force = new Vector();
-		noParticles +=1;
-		name = n;
+		newPosition = new PhysicsVector();
+		newVelocity = new PhysicsVector();
+		momentum = 0;
 		energy = 0;
 	}
 
-	public Particle(Vector p, double m, String n) {
-		position = new Vector(p);
-		velocity = new Vector();
-		acceleration = new Vector();
-		mass = m;
-		field = new GravField(position, mass);
-		newPosition = new Vector();
-		newVelocity = new Vector();
-		newAcceleration = new Vector();
-		// force = new Vector();
-		noParticles +=1;
-		name = n;
-		energy = 0;
-	}
-
-	public Particle(Vector p, Vector v, double m, String n) {
-		position = new Vector(p);
-		velocity = new Vector(v);
-		acceleration = new Vector();
-		mass = m;
-		field = new GravField(position, mass);
-		newPosition = new Vector();
-		newVelocity = new Vector();
-		newAcceleration = new Vector();
-		// force = new Vector();
-		noParticles +=1;
-		name = n;
-		energy = 0;
-	}
-
-	public Particle(Vector p, Vector v, Vector a, double m, String n) {
-		position = new Vector(p);
-		velocity = new Vector(v);
-		acceleration = new Vector(a);
-		mass = m;
-		field = new GravField(position, mass);
-		newPosition = new Vector();
-		newVelocity = new Vector();
-		newAcceleration = new Vector();
-		// force = new Vector();
-		noParticles +=1;
-		name = n;
-		energy = 0;
-	}
-
-	public void setPosition() {
-		position.setVector();
-		updateField();
-	}
-
-	public void setPosition(double x) {
-		position.setVector(x);
-		updateField();
-	}
-
-	public void setPosition(double x, double y) {
-		position.setVector(x, y);
-		updateField();
-	}
-
-	public void setPosition(double x, double y, double z) {
-		position.setVector(x, y, z);
-		updateField();
-	}
-
-	public void setPosition(double[] p) {
-		position.setVector(p);
-		updateField();
-	}
-
-	public void setPosition(Vector v) {
-		position.setVector(v);
-		updateField();
-	}
-
-	public void setPositionX(double x) {
-		position.setX(x);
-		updateField();
-	} 
-
-	public void setPositionY(double y) {
-		position.setY(y);
-		updateField();
-	}
-
-	public void setPositionZ(double z) {
-		position.setZ(z);
-		updateField();
-	}
-
-	public void setVelocity() {
-		velocity.setVector();
-	}
-
-	public void setVelocity(double x) {
-		velocity.setVector(x);
-	}
-
-	public void setVelocity(double x, double y) {
-		velocity.setVector(x, y);
-	}
-
-	public void setVelocity(double x, double y, double z) {
-		velocity.setVector(x, y, z);
-	}
-
-	public void setVelocity(double[] p) {
-		velocity.setVector(p);
-	}
-
-	public void setVelocity(Vector v) {
-		velocity.setVector(v);
-	}
-
-	public void setVelocityX(double x) {
-		velocity.setX(x);
-	} 
-
-	public void setVelocityY(double y) {
-		velocity.setY(y);
-	}
-
-	public void setVelocityZ(double z) {
-		velocity.setZ(z);
-	}
-
-	public void setAcceleration() {
-		acceleration.setVector();
-	}
-
-	public void setAcceleration(double x) {
-		acceleration.setVector(x);
-	}
-
-	public void setAcceleration(double x, double y) {
-		acceleration.setVector(x, y);
-	}
-
-	public void setAcceleration(double x, double y, double z) {
-		acceleration.setVector(x, y, z);
-	}
-
-	public void setAcceleration(double[] p) {
-		acceleration.setVector(p);
-	}
-
-	public void setAcceleration(Vector v) {
-		acceleration.setVector(v);
-	}
-
-	public void setAccelerationX(double x) {
-		acceleration.setX(x);
-	} 
-
-	public void setAccelerationY(double y) {
-		acceleration.setY(y);
-	}
-
-	public void setAccelerationZ(double z) {
-		acceleration.setZ(z);
-	}
-
-	public void setNewPosition() {
-		newPosition.setVector();
-	}
-
-	public void setNewPosition(double x) {
-		newPosition.setVector(x);
-	}
-
-	public void setNewPosition(double x, double y) {
-		newPosition.setVector(x, y);
-	}
-
-	public void setNewPosition(double x, double y, double z) {
-		newPosition.setVector(x, y, z);
-	}
-
-	public void setNewPosition(double[] p) {
-		newPosition.setVector(p);
-	}
-
-	public void setNewPosition(Vector v) {
-		newPosition.setVector(v);
-	}
-
-	public void setNewPositionX(double x) {
-		newPosition.setX(x);
-	} 
-
-	public void setNewPositionY(double y) {
-		newPosition.setY(y);
-	}
-
-	public void setNewPositionZ(double z) {
-		newPosition.setZ(z);
-	}
-
-	public void setNewVelocity() {
-		newVelocity.setVector();
-	}
-
-	public void setNewVelocity(double x) {
-		newVelocity.setVector(x);
-	}
-
-	public void setNewVelocity(double x, double y) {
-		newVelocity.setVector(x, y);
-	}
-
-	public void setNewVelocity(double x, double y, double z) {
-		newVelocity.setVector(x, y, z);
-	}
-
-	public void setNewVelocity(double[] p) {
-		newVelocity.setVector(p);
-	}
-
-	public void setNewVelocity(Vector v) {
-		newVelocity.setVector(v);
-	}
-
-	public void setNewVelocityX(double x) {
-		newVelocity.setX(x);
-	} 
-
-	public void setNewVelocityY(double y) {
-		newVelocity.setY(y);
-	}
-
-	public void setNewVelocityZ(double z) {
-		newVelocity.setZ(z);
-	}
-
-	public void setNewAcceleration() {
-		newAcceleration.setVector();
-	}
-
-	public void setNewAcceleration(double x) {
-		newAcceleration.setVector(x);
-	}
-
-	public void setNewAcceleration(double x, double y) {
-		newAcceleration.setVector(x, y);
-	}
-
-	public void setNewAcceleration(double x, double y, double z) {
-		newAcceleration.setVector(x, y, z);
-	}
-
-	public void setNewAcceleration(double[] p) {
-		newAcceleration.setVector(p);
-	}
-
-	public void setNewAcceleration(Vector v) {
-		newAcceleration.setVector(v);
-	}
-
-	public void setNewAccelerationX(double x) {
-		newAcceleration.setX(x);
-	} 
-
-	public void setNewAccelerationY(double y) {
-		newAcceleration.setY(y);
-	}
-
-	public void setNewAccelerationZ(double z) {
-		newAcceleration.setZ(z);
-	}
-
-	/*
-	public void setForce() {
-		force.setVector();
-	}
-
-	public void setForce(double x) {
-		force.setVector(x);
-	}
-
-	public void setForce(double x, double y) {
-		force.setVector(x, y);
-	}
-
-	public void setForce(double x, double y, double z) {
-		force.setVector(x, y, z);
-	}
-
-	public void setForce(double[] p) {
-		force.setVector(p);
-	}
-
-	public void setForce(Vector v) {
-		force.setVector(v);
-	}
-
-	public void setForceX(double x) {
-		force.setX(x);
-	} 
-
-	public void setForceY(double y) {
-		force.setY(y);
-	}
-
-	public void setForceZ(double z) {
-		force.setZ(z);
-	}
+	/**
+	 * Purpose: Constructor. Sets position to a given vector, mass to a given double, and name to a given string.
+	 * @param  p Position Vector
+	 * @param  m Double to use as mass
+	 * @param  n String to use as name
 	 */
-
-	public void setMass(double m) {
-		this.mass = m;
-		updateField();
+	public Particle(PhysicsVector p, double m, String n) {
+		position = new PhysicsVector(p);
+		velocity = new PhysicsVector();
+		acceleration = new PhysicsVector();
+		mass = m;
+		name = n;
+		field = new GravField(position, mass);
+		newPosition = new PhysicsVector();
+		newVelocity = new PhysicsVector();
+		momentum = 0;
+		energy = 0;
 	}
 
-	public void updateField() {
-		field.updateVars(position, mass);
+	/**
+	 * Purpose: Constructor. Sets position and velocity to given vectors, mass to a given double, and name to a given string.
+	 * @param  p Position Vector
+	 * @param  v Velocity Vector
+	 * @param  m double to use as mass 
+	 * @param  n String to use as name
+	 */
+	public Particle(PhysicsVector p, PhysicsVector v, double m, String n) {
+		position = new PhysicsVector(p);
+		velocity = new PhysicsVector(v);
+		acceleration = new PhysicsVector();
+		mass = m;
+		name = n;
+		field = new GravField(position, mass);
+		newPosition = new PhysicsVector();
+		newVelocity = new PhysicsVector();
+		momentum = 0;
+		energy = 0;
 	}
 
-	public Vector getPosition() {
-		return this.position;
+	/**
+	 * Constructor. Sets position and velocity to given vectors, mass to a given double, and name to a given string.
+	 * @param  p Position Vector
+	 * @param  v Velocity Vector
+	 * @param  a Acceleration vector
+	 * @param  m mass double
+	 * @param  n name String
+	 */
+	public Particle(PhysicsVector p, PhysicsVector v, PhysicsVector a, double m, String n) {
+		position = new PhysicsVector(p);
+		velocity = new PhysicsVector(v);
+		acceleration = new PhysicsVector(a);
+		mass = m;
+		name = n;
+		field = new GravField(position, mass);
+		newPosition = new PhysicsVector();
+		newVelocity = new PhysicsVector();
+		momentum = 0;
+		energy = 0;
 	}
 
+	/**
+	 * Purpose: Get a vector representing the particle's position
+	 * @return Particle's position vector. 
+	 */
+	public PhysicsVector getPosition() {
+		return position;
+	}
+
+	/**
+	 * Purpose: Get a particle's x-position
+	 * @return Particle's x-position
+	 */
 	public double getPositionX() {
-		return this.position.getX();
+		return position.getX();
 	}
 
+	/**
+	 * Purpose: Get a particle's y-position
+	 * @return Particle's y-position
+	 */
 	public double getPositionY() {
-		return this.position.getY();
+		return position.getY();
 	}
 
+	/**
+	 * Purpose: Get a particle's z-position
+	 * @return Particle's z-position
+	 */
 	public double getPositionZ() {
-		return this.position.getZ();
+		return position.getZ();
 	}
 
-	public Vector getVelocity() {
-		return this.velocity;
+	/**
+	 * Purpose: Get a vector representing the particle's velocity
+	 * @return Particle's velocity vector. 
+	 */
+	public PhysicsVector getVelocity() {
+		return velocity;
 	}
 
+	/**
+	 * Purpose: Get a particle's x-velocity
+	 * @return Particle's x-velocity
+	 */
 	public double getVelocityX() {
-		return this.velocity.getX();
+		return velocity.getX();
 	}
 
+	/**
+	 * Purpose: Get a particle's y-velocity
+	 * @return Particle's y-velocity
+	 */
 	public double getVelocityY() {
-		return this.velocity.getY();
+		return velocity.getY();
 	}
 
+	/**
+	 * Purpose: Get a particle's z-velocity
+	 * @return Particle's z-velocity
+	 */
 	public double getVelocityZ() {
-		return this.velocity.getZ();
+		return velocity.getZ();
 	}
 
-	public Vector getAcceleration() {
-		return this.acceleration;
+	/**
+	 * Purpose: Get a vector representing the particle's acceleration
+	 * @return Particle's acceleration vector. 
+	 */
+	public PhysicsVector getAcceleration() {
+		return acceleration;
 	}
 
+	/**
+	 * Purpose: Get a particle's x-acceleration
+	 * @return Particle's x-acceleration
+	 */
 	public double getAccelerationX() {
-		return this.acceleration.getX();
+		return acceleration.getX();
 	}
 
+	/**
+	 * Purpose: Get a particle's y-acceleration
+	 * @return Particle's y-acceleration
+	 */
 	public double getAccelerationY() {
-		return this.acceleration.getY();
+		return acceleration.getY();
 	}
 
+	/**
+	 * Purpose: Get a particle's z-acceleration
+	 * @return Particle's z-acceleration
+	 */
 	public double getAccelerationZ() {
-		return this.acceleration.getZ();
+		return acceleration.getZ();
 	}
 
+	/**
+	 * Purpose: Get a vector representing the particle's newPosition
+	 * @return Particle's newPosition vector. 
+	 */
+	public PhysicsVector getNewPosition() {
+		return newPosition;
+	}
+
+	/**
+	 * Purpose: Get a particle's x-newPosition
+	 * @return Particle's x-newPosition
+	 */
+	public double getNewPositionX() {
+		return newPosition.getX();
+	}
+
+	/**
+	 * Purpose: Get a particle's y-newPosition
+	 * @return Particle's y-newPosition
+	 */
+	public double getNewPositionY() {
+		return newPosition.getY();
+	}
+
+	/**
+	 * Purpose: Get a particle's z-newPosition
+	 * @return Particle's z-newPosition
+	 */
+	public double getNewPositionZ() {
+		return newPosition.getZ();
+	}
+
+	/**
+	 * Purpose: Get a vector representing the particle's newVelocity
+	 * @return Particle's newVelocity vector. 
+	 */
+	public PhysicsVector getNewVelocity() {
+		return newVelocity;
+	}
+
+	/**
+	 * Purpose: Get a particle's x-newVelocity
+	 * @return Particle's x-newVelocity
+	 */
+	public double getNewVelocityX() {
+		return newVelocity.getX();
+	}
+
+	/**
+	 * Purpose: Get a particle's y-newVelocity
+	 * @return Particle's y-newVelocity
+	 */
+	public double getNewVelocityY() {
+		return newVelocity.getY();
+	}
+
+	/**
+	 * Purpose: Get a particle's z-newVelocity
+	 * @return Particle's z-newVelocity
+	 */
+	public double getNewVelocityZ() {
+		return newVelocity.getZ();
+	}
+
+
+	/**
+	 * Purpose: get a particle's mass
+	 * @return Particle's mass
+	 */
 	public double getMass() {
-		return this.mass;
+		return mass;
 	}
 
-	/*
-	public Vector getForce() {
-		return this.force;
-	}
-
-	public double getForceX() {
-		return this.force.getX();
-	}
-
-	public double getForceY() {
-		return this.force.getY();
-	}
-
-	public double getForceZ() {
-		return this.force.getZ();
-	}
-
-	public void forceOn(Particle p) {
-		// double pMass = p.getMass();
-		Vector newForce = new Vector();
-		Vector fieldAccel = new Vector(field.computeField(p));
-		newForce.setVector(fieldAccel.scalar(p.getMass()));
-		Vector pForce = new Vector(p.getForce());
-		p.setForce(Vector.add(pForce, newForce));
-	}
+	/**
+	 * Purpose: Get a particle's name
+	 * @return Particle's name
 	 */
-
-	public void accelFrom(Particle p) {
-		setAcceleration(acceleration.add(p.field.computeField(this)));
-	}
-
-	/*
-	public void updateAccel() {
-		setAcceleration(force.scalar(1/mass));
-	}
-	 */
-
-	public void newVars(double t) {
-		// updateAccel();
-		setNewVelocity(Vector.add(velocity, acceleration.scalar(t)));
-		setNewPosition(Vector.add(position, velocity.scalar(t)));
-	}
-
-	public void updateVars() {
-		setVelocity(newVelocity);
-		setPosition(newPosition);
-		setAcceleration();
-		// setForce();
-	}
-
-	public void print() {
-		String posString = position.returnSimpleString();
-		String velString = velocity.returnSimpleString();
-		System.out.println("Position:" + posString);
-		System.out.println("Velocity:" + velString);
-		System.out.println();
-	}
-
-	public static int getNumberOf() {
-		return noParticles;
-	}
-
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Purpose: Get the associated field for a particle
+	 * @return Particle's field
+	 */
+	public GravField getField() {
+		return field;
+	}
+
+	/**
+	 * Purpose: Get a particle's momentum
+	 * @return Particle's momentum
+	 */
+	public double getMomentum() {
+		return momentum;
+	}
+
+	/**
+	 * Purpose: Get a particle's energy
+	 * @return Particle's Energy
+	 */
+	public double getEnergy() {
+		return energy;
+	}
+
+	/**
+	 * Purpose: Set the position vector to 0
+	 */
+	public void setPosition() {
+		position.setVector(0,0,0);
+	}
+
+	/**
+	 * Purpose: Set the position vector to equal a new vector
+	 * @param v Vector to replace current position vector
+	 */
+	public void setPosition(PhysicsVector v) {
+		position.setVector(0,0,0);
+		position.setVector(v);
+	}
+
+	/**
+	 * Purpose: Set the velocity vector to 0
+	 */
+	public void setVelocity() {
+		velocity.setVector(0,0,0);
+	}
+
+	/**
+	 * Purpose: Set the velocity vector to equal a new vector
+	 * @param v Vector to replace current velocity vector
+	 */
+	public void setVelocity(PhysicsVector v) {
+		velocity.setVector(0,0,0);
+		velocity.setVector(v);
+	}
+
+	/**
+	 * Purpose: Set the acceleration vector to 0
+	 */
+	public void setAcceleration() {
+		acceleration.setVector(0,0,0);
+	}
+
+	/**
+	 * Purpose: Set the acceleration vector to equal a new vector
+	 * @param v Vector to replace current acceleration vector
+	 */
+	public void setAcceleration(PhysicsVector v) {
+		acceleration.setVector(0,0,0);
+		acceleration.setVector(v);
+	}
+
+	/**
+	 * Purpose: Set the newPosition vector to 0
+	 */
+	public void setNewPosition() {
+		newPosition.setVector(0,0,0);
+	}
+
+
+	/**
+	 * Purpose: Set the newPosition vector to equal a new vector
+	 * @param v Vector to replace current newPosition vector
+	 */
+	public void setNewPosition(PhysicsVector v) {
+		newPosition.setVector(0,0,0);
+		newPosition.setVector(v);
+	}
+
+	/**
+	 * Purpose: Set the newVelocity vector to 0
+	 */
+	public void setNewVelocity() {
+		newVelocity.setVector(0,0,0);
+	}
+
+	/**
+	 * Purpose: Set the newVelocity vector to equal a new vector
+	 * @param v Vector to replace current newVelocity vector
+	 */
+	public void setNewVelocity(PhysicsVector v) {
+		newVelocity.setVector(0,0,0);
+		newVelocity.setVector(v);
+	}
+
+	/**
+	 * Purpose: Set the particle's mass to a new value
+	 * @param m New mass
+	 */
+	public void setMass(double m) {
+		mass = m;
+	}
+
+	/**
+	 *  Purpose: Set the particle's name to a new value
+	 * @param n New name
+	 */
 	public void setName(String n) {
 		name = n;
 	}
 
+	/**
+	 * Purpose: Set the particle's momentum to a new value
+	 * @param m New momentum
+	 */
+	public void setMomentum(double m) {
+		momentum = m;
+	}
+
+	/**
+	 * Purpose: Set the particle's energy to a new value
+	 * @param e New Energy
+	 */
 	public void setEnergy(double e) {
 		energy = e;
 	}
 
-	public double getEnergy() {
-		return this.energy;
+	/**
+	 * Purpose: calculate a particle's momentum
+	 * <p>
+	 * Use p=mv
+	 * @return Particle's current momentum
+	 */
+	public double calcMomentum() {
+		double vel = velocity.magnitude();
+		return vel*mass;
 	}
 
-	public void energyFrom(Particle p) {
-		Vector seperation = field.getSeperation(p);
-		double sepMag = seperation.getMag();
-		Vector acceleration = p.field.computeField(this);
-		setEnergy(energy + mass*(acceleration.getMag())*sepMag);
+	/**
+	 * Purpose: Update's a particle's momentum value to the current value
+	 */
+	public void updateMomentum() {
+		this.setMomentum(this.calcMomentum());
+	}
+
+	/**
+	 * Purpose: Calculate a particles kinetic energy.
+	 * <p>
+	 * Uses E=(mv^2)/2
+	 * @return Particle's Kinetic Energy
+	 */
+	public double calcKE() {
+		double vel = velocity.magnitude();
+		double kE = 0.5*mass*vel*vel;
+		return kE;
+	}
+
+	/**
+	 * Purpose: Find the gravitational potential energy of this particle due to a gravitating particle g.
+	 * <p>
+	 * Uses E = GMm/r
+	 * @param  g Gravitating particle.
+	 * @return   Gravitational Potential Energy
+	 */
+	public double calcGPE(Particle g) {
+		PhysicsVector gravPos = new PhysicsVector(g.getPosition());
+		PhysicsVector targetPos = new PhysicsVector(this.getPosition());
+		double gravMass = g.getMass();
+		double targetMass = this.getMass();
+		PhysicsVector seperation = PhysicsVector.subtract(gravPos, targetPos);
+		double sepMag = seperation.magnitude();
+		double gPE =  (G*targetMass*gravMass)/sepMag;
+		return gPE;
+	}
+
+
+	/**
+	 * Purpose: Generate new variables to use for position and velocity using Euler method.
+	 * @param t Time step
+	 */
+	public void newVars(double t) {
+		setNewVelocity(PhysicsVector.add(velocity, PhysicsVector.scale(t, acceleration)));
+		setNewPosition(PhysicsVector.add(position, PhysicsVector.scale(t, velocity)));
+	}
+
+	/**
+	 *  Purpose: Generate new variables to use for position and velocity using Euler-Cramer method.
+	 * @param t Time step
+	 */
+	public void newVarsC(double t) {
+		setNewVelocity(PhysicsVector.add(velocity, PhysicsVector.scale(t, acceleration)));
+		setNewPosition(PhysicsVector.add(position, PhysicsVector.scale(t, newVelocity)));
+	}
+
+	/**
+	 * Purpose: Replace existing velocity and position with new positions and velocities. Zero newPosition/newVelocity/acceleration.
+	 */
+	public void updateVars() {
+		setVelocity(newVelocity);
+		setPosition(newPosition);
+		setNewPosition();
+		setNewVelocity();
+		setAcceleration();
 	}
 }
