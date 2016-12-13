@@ -3,6 +3,7 @@ To start, use:
 	java SolarSystem -h
 
 Included starting data (located in ./Data/):
+
 planets.dat 	The 8 planets, plus the sun
 	
 fullSystem.dat 	The 8 Planets, the sun, pluto, every moon listed by wikipedia as having enough mass to be sepherical, plus phobos and demios
