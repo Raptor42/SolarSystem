@@ -1,19 +1,25 @@
 # SolarSystem
-To start, use:
+A program which simulates the solar system for a specified time interval to a limit, using Euler and Euler-Cramer methods.
+
+To start, clone repo and use:
+	
+	javac *.java
 	java SolarSystem -h
 
-Included starting data (located in ./Data/):
+## Included starting data (located in ./Data/):
 
-planets.dat 	
+### planets.dat 	
 The 8 planets, plus the sun
 	
-fullSystem.dat 	
+### fullSystem.dat 	
 The 8 Planets, the sun, pluto, every moon listed by wikipedia as having enough mass to be sepherical, plus phobos and demios
 
 More data is available in ./Data/HORIZONS - this is the direct output from JPL's HORIZON ephemerides system, so it is not machine readable.
 
-## Description of classes:
-See ./JavaDoc/ for a detailed overview.
+## Description of classes
+See ./JavaDoc/ for a detailed overview - use 
+
+	javadoc -use -author -version -d ./JavaDoc/
 
 ### PhysicsVector
 Provides constructors and a library of methods for working with vectors in a physics context
