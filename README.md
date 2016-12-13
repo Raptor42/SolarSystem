@@ -4,9 +4,11 @@ To start, use:
 
 Included starting data (located in ./Data/):
 
-planets.dat 	The 8 planets, plus the sun
+planets.dat 	
+The 8 planets, plus the sun
 	
-fullSystem.dat 	The 8 Planets, the sun, pluto, every moon listed by wikipedia as having enough mass to be sepherical, plus phobos and demios
+fullSystem.dat 	
+The 8 Planets, the sun, pluto, every moon listed by wikipedia as having enough mass to be sepherical, plus phobos and demios
 
 More data is available in ./Data/HORIZONS - this is the direct output from JPL's HORIZON ephemerides system, so it is not machine readable.
 
